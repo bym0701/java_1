@@ -1,15 +1,6 @@
 package ¹ÚÀ¯¹Î;
 
-public class StudentScore {
-	/*String sname;
-	int sid, kor, eng, math;
-	
-	void setInfo(String name, int id, int k, int e, int m) {
-		sname = name; sid = id; kor = k; eng = e; math = m;
-	}
-	double getAverage() { return (kor + eng + math)/3.0;}
-	String getInfo() {return sname + ", " + sid + ", " + kor + ", " + eng + ", " + math;}
-	*/
+public class StudentScore_private {
 	public static void main(String[] args) {
 		int korSum = 0, engSum = 0, mathSum = 0;
 		double totalSum = 0.0, korAvg, engAvg, mathAvg, totalAvg;
@@ -24,9 +15,9 @@ public class StudentScore {
 		
 		for(int i = 0; i < 3; i++) {
 			System.out.println(students[i].getInfo());
-			korSum += students[i].kor;
-			engSum += students[i].eng;
-			mathSum += students[i].math;
+			korSum += students[i].getKor();
+			engSum += students[i].getEng();
+			mathSum += students[i].getMath();
 			totalSum += students[i].getAverage();
 		}
 		
@@ -41,10 +32,15 @@ public class StudentScore {
 		System.out.println("ÀüÃ¼ Æò±Õ : "+ totalAvg);
 	}
 }
-/*
 class Student{
-	String sname;
-	int sid, kor, eng, math;
+	private String sname;
+	private int sid, kor, eng, math;
+	
+	public String getName() {return sname;}
+	public int getSID() {return sid;}
+	public int getKor() {return kor;}
+	public int getEng() {return eng;}
+	public int getMath() {return math;}
 	
 	void setInfo(String name, int id, int k, int e, int m) {
 		sname = name; sid = id; kor = k; eng = e; math = m;
@@ -52,4 +48,3 @@ class Student{
 	double getAverage() {return (kor + eng + math)/3.0;}
 	String getInfo() {return sname + ", " + sid + ", " + kor + ", " + eng + ", " + math;}
 }
-*/
