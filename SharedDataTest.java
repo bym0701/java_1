@@ -1,65 +1,66 @@
-package ¹ÚÀ¯¹Î;
+package workspace;
 
 import java.util.Random;
 
 public class SharedDataTest {
 	public static void main(String[] args) {
-		
-		Consumer c = new Consumer();//1
-		Producer p = new Producer();//2
-		
-		for(int i = 0; i < 3; i++) {
-			p.produce();
-			c.consume();
+
+		Consumer c = new Consumer();  // 4
+		Producer p = new Producer();  // 5
+
+		for(int i = 0; i < 3; i++) {  // 6
+			p.produce();              // 7
+			c.consume();              // 18
 		}
 	}
 }
 
 class SharedData{
-	private static int count = 0;
-	public final static int MaxSize = 100;
-	private static int[] buffer = new int[MaxSize];
-	
-	public static int getVal() {
-		if(count != 0) //11
-			return buffer[--count];//12
-		else //12
-			return -1;//13
-		//13
+	private static int count = 0; // 1    
+	public final static int MaxSize = 100; // 2
+	private static int[] buffer = new int[MaxSize]; //  3
+
+	public static int getVal() {           // 22
+		if(count != 0)                     // 23
+			return buffer[--count];        // 24
+		else // 24
+			return -1;                     // 25
 	}
-	public static int setVal(int s) {
-		if(count != MaxSize) {
-			buffer[count++] = s;
-			return count;
+	
+	public static int setVal(int s) {      // 12
+		if(count != MaxSize) {             // 13
+			buffer[count++] = s;           // 14
+			return count;                  // 15
 		}
-		else return -1;
+		else return -1;                    // 14
 	}
 }
 
 class Producer{
-	private Random generator = new Random();
-	public void produce() {
-		int loop = generator.nextInt(4) + 2;
-		int res, val;
-		for(int i = 0; i < loop; i++) {
-			val = generator.nextInt(101);
-			res = SharedData.setVal(val);
-			if(res < 0) System.out.println("write : ¹öÆÛ°¡ ²Ë Âù µ¥ÀÌÅÍ¸¦ Ãß°¡ÇÒ ¼ö ¾ø½À´Ï´Ù.");
-			else System.out.println("write : " + val);
+	private Random generator = new Random(); // 4
+	public void produce() {                  // 7
+		int loop = generator.nextInt(4) + 2; // 8
+		int res, val; // 9
+		for(int i = 0; i < loop; i++) {      // 10
+			val = generator.nextInt(101);    // 11
+			res = SharedData.setVal(val);    // 12
+			if(res < 0) //16
+				System.out.println("write : ë²„í¼ê°€ ê½‰ ì°¬ ë°ì´í„°ë¥¼ ì¶”ê°€í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤."); // 17
+			else System.out.println("write : " + val); //17
 		}
-		
 	}
 }
 
 class Consumer{
-	private Random generator = new Random();
-	public void consume() {
-		int loop = generator.nextInt(4) + 2;
-		int res;
-		for(int i = 0; i < loop; i++) {
-			res = SharedData.getVal();
-			if(res < 0) System.out.println("read : µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.");
-			else System.out.println("read : " + res);
+	private Random generator = new Random(); // 5
+	public void consume() {                  // 18
+		int loop = generator.nextInt(4) + 2; // 19
+		int res; // 20
+		for(int i = 0; i < loop; i++) {      // 21
+			res = SharedData.getVal();       // 22
+			if(res < 0) //26
+				System.out.println("read : ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤."); // 27
+			else System.out.println("read : " + res); // 27
 		}
 	}
 }
