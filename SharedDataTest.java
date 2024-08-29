@@ -14,7 +14,7 @@ public class SharedDataTest {
 		}
 	}
 }
-
+/*
 class SharedData{
 	private static int count = 0; 
 	public final static int MaxSize = 100; 
@@ -62,4 +62,4 @@ class Consumer{
 			else System.out.println("read : " + res); // 28
 		}
 	}
-}
+} */
