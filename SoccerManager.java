@@ -8,11 +8,13 @@ public class SoccerManager {
 		manager.start();
 	}
 	
-	Scanner sc = new Scanner(System.in);
+	
 	구단 [] groups = new 구단[100];
 	int count = 0;
 	
 	void start() {
+		Scanner sc = new Scanner(System.in);
+		int select;
 		do {
 			System.out.println("<축구구단 관리 프로그램>");
 			System.out.println("1. 구단 추가");
@@ -22,7 +24,7 @@ public class SoccerManager {
 			System.out.println("5. 프로그램 종료");
 		
 			System.out.println("입력 : ");
-			int select = sc.nextInt();
+			select = sc.nextInt();
 			
 			switch(select) {
 			case 1 : Add_Group(); break;
@@ -36,15 +38,18 @@ public class SoccerManager {
 	}	
 	
 	private void Add_Group() {
+		Scanner sc = new Scanner(System.in);
 		String name;  
 		System.out.println("<<구단 추가>>");
+		groups[count]= new 구단();
 		System.out.println("구단이름 입력 : ");
 		name = sc.nextLine();
-		groups[count] = new 구단(name);
+		groups[count].SetName(name);
 		System.out.println(">구단이 생성되었습니다.");
 		count++;
 	}
 	private void Edit_Group_menu() {
+		Scanner sc = new Scanner(System.in);
 		System.out.println("<<구단 편집>>");
 		int i;
 		int select;
@@ -55,12 +60,12 @@ public class SoccerManager {
 			System.out.println((i+1) + ". 나가기");
 			System.out.println("편집할 구단 입력 : ");
 			select = sc.nextInt()-1;
-			if(select > i+1 || select <= 0)
+			if(select > i+1 || select < 0)
 				System.out.println("잘못된 번호입니다. 다시 입력해주세요.");
 			else
 				break;
 		}
-		groups[select].Edit_Group(groups[select]);
+		groups[select].Edit_Group();
 	}
 	private void Delete_Group() {
 		System.out.println("다른 메뉴를 선택해주세요.");
@@ -73,16 +78,17 @@ public class SoccerManager {
 }
 
 class 구단 {
-	Scanner sc = new Scanner(System.in);
+	
 	private String name;
-	public 구단(String name) {
+	public void SetName(String name) {
 		this.name = name;
 	}
 	public String getName() {return name;}
-	public void Edit_Group(구단 group) {
+	
+	public void Edit_Group() {
 		int select;
 		do {
-			System.out.println("<<" + group.getName() +"구단을 편집합니다.>>");
+			System.out.println("<<" + this.getName() +"을 편집합니다.>>");
 			System.out.println("1. 코치추가");
 			System.out.println("2. 선수추가");
 			System.out.println("3. 코치삭제");
@@ -103,28 +109,32 @@ class 구단 {
 			}
 		}while(true);
 	}
+	
 	private void Add_Coach() {
+		Scanner sc = new Scanner(System.in);
 		String name;
 		System.out.println("코치이름을 입력해주세요 :");
 		name = sc.nextLine();
-		코치 coach = new 코치(name);
+		코치 coach = new 코치();
+		coach.SetName(name);
 		System.out.println(">" + coach.getName() +"가 추가되었습니다.");
 	}
+	
 	private void Add_Player() {
 		System.out.println("<<<선수를 추가합니다.>>>");
 		System.out.println("선수이름 : ");
 		String name = sc.nextLine();
 		System.out.println("선수연봉(만원) : ");
 		int money = sc.nextInt();
-		
-		선수 player = new 선수(name, money);
-		
+		선수 player = new 선수();
+		player.SetInfo(name, money);
 		System.out.println(">" + player.getName() + "가 추가되었습니다.");
-		
 	}
+	
 	private void Delete_Coach() {
 		System.out.println("다른 메뉴를 선택해주세요.");
 	}
+	
 	private void Delete_Player() {
 		System.out.println("다른 메뉴를 선택해주세요.");
 	}
@@ -132,16 +142,20 @@ class 구단 {
 class 선수{
 	private String name;
 	private int money;
-	public 선수(String name, int money) {
+	
+	public void SetInfo(String name, int money) {
 		this.name = name;
 		this.money = money;
 	}
+	
 	public String getName() {return name;}
 }
 class 코치{
 	private String name;
-	public 코치(String name) {
+	
+	public void SetName(String name) {
 		this.name = name;
 	}
+	
 	public String getName() {return name;}
 }
