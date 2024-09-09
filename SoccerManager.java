@@ -1,4 +1,4 @@
-package workspace;
+package test;
 
 import java.util.Scanner;
 
@@ -7,157 +7,261 @@ public class SoccerManager {
 		SoccerManager manager = new SoccerManager();
 		manager.start();
 	}
-	
-	
-	êµ¬ë‹¨ [] groups = new êµ¬ë‹¨[100];
+
+	±¸´Ü[] groups = new ±¸´Ü[100];
 	int count = 0;
-	
+
 	void start() {
 		Scanner sc = new Scanner(System.in);
 		int select;
 		do {
-			System.out.println("<ì¶•êµ¬êµ¬ë‹¨ ê´€ë¦¬ í”„ë¡œê·¸ë¨>");
-			System.out.println("1. êµ¬ë‹¨ ì¶”ê°€");
-			System.out.println("2. êµ¬ë‹¨ í¸ì§‘");
-			System.out.println("3. êµ¬ë‹¨ ì‚­ì œ");
-			System.out.println("4. êµ¬ë‹¨ ë³´ê¸°");
-			System.out.println("5. í”„ë¡œê·¸ë¨ ì¢…ë£Œ");
-		
-			System.out.println("ì…ë ¥ : ");
+			System.out.println("<Ãà±¸±¸´Ü °ü¸® ÇÁ·Î±×·¥>");
+			System.out.println("1. ±¸´Ü Ãß°¡");
+			System.out.println("2. ±¸´Ü ÆíÁı");
+			System.out.println("3. ±¸´Ü »èÁ¦");
+			System.out.println("4. ±¸´Ü º¸±â");
+			System.out.println("5. ÇÁ·Î±×·¥ Á¾·á");
+
+			System.out.println("ÀÔ·Â : ");
 			select = sc.nextInt();
-			
-			switch(select) {
-			case 1 : Add_Group(); break;
-			case 2 : Edit_Group_menu(); break;
-			case 3 : Delete_Group(); break;
-			case 4 : Show_Group(); break;
-			case 5 : System.out.println("ì‹œìŠ¤í…œì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
-			return;
+
+			switch (select) {
+			case 1:
+				Add_Group();
+				break;
+			case 2:
+				Edit_Group_menu();
+				break;
+			case 3:
+				Delete_Group();
+				break;
+			case 4:
+				Show_Group_menu();
+				break;
+			case 5:
+				System.out.println("½Ã½ºÅÛÀÌ Á¾·áµÇ¾ú½À´Ï´Ù.");
+				return;
 			}
-		}while(true);
-	}	
-	
+		} while (true);
+	}
+
 	private void Add_Group() {
 		Scanner sc = new Scanner(System.in);
-		String name;  
-		System.out.println("<<êµ¬ë‹¨ ì¶”ê°€>>");
-		groups[count]= new êµ¬ë‹¨();
-		System.out.println("êµ¬ë‹¨ì´ë¦„ ì…ë ¥ : ");
+		String name;
+		System.out.println("<<±¸´Ü Ãß°¡>>");
+		groups[count] = new ±¸´Ü();
+		System.out.println("±¸´ÜÀÌ¸§ ÀÔ·Â : ");
 		name = sc.nextLine();
 		groups[count].SetName(name);
-		System.out.println(">êµ¬ë‹¨ì´ ìƒì„±ë˜ì—ˆìŠµë‹ˆë‹¤.");
+		System.out.println(">±¸´ÜÀÌ »ı¼ºµÇ¾ú½À´Ï´Ù.");
 		count++;
 	}
+
 	private void Edit_Group_menu() {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("<<êµ¬ë‹¨ í¸ì§‘>>");
+		System.out.println("<<±¸´Ü ÆíÁı>>");
 		int i;
 		int select;
-		while(true) {
-			for(i = 0; i < count; i++) {
-			System.out.println((i+1) + ". " + groups[i].getName());
+		while (true) {
+			for (i = 0; i < count; i++) {
+				System.out.println((i + 1) + ". " + groups[i].getName());
 			}
-			System.out.println((i+1) + ". ë‚˜ê°€ê¸°");
-			System.out.println("í¸ì§‘í•  êµ¬ë‹¨ ì…ë ¥ : ");
-			select = sc.nextInt()-1;
-			if(select > i+1 || select < 0)
-				System.out.println("ì˜ëª»ëœ ë²ˆí˜¸ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+			System.out.println((i + 1) + ". ³ª°¡±â");
+			System.out.println("ÆíÁıÇÒ ±¸´Ü ÀÔ·Â : ");
+			select = sc.nextInt() - 1;
+			if (select >= count || select < 0)
+				System.out.println("Àß¸øµÈ ¹øÈ£ÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 			else
 				break;
 		}
 		groups[select].Edit_Group();
 	}
+
 	private void Delete_Group() {
-		System.out.println("ë‹¤ë¥¸ ë©”ë‰´ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.");
-	}
-	private void Show_Group() {
+		Scanner sc = new Scanner(System.in);
+		int select;
 		for(int i = 0; i < count; i++) {
 			System.out.println((i+1) + ". " + groups[i].getName());
-			}
+		}
+		System.out.println("»èÁ¦ÇÒ ±¸´Ü¸¦ ¼±ÅÃÇÏ¼¼¿ä : ");
+		select = sc.nextInt()-1;
+		groups[select].DeleteGroup();
+		groups[select] = null;
+		count--;
+		for(int i = select; i < count; i++) {
+			groups[i] = groups[i+1];
+		}
+		groups[count] = null;
+		System.out.println("»èÁ¦µÇ¾ú½À´Ï´Ù.");
+	}
+	
+
+	private void Show_Group_menu() {
+		for (int i = 0; i < count; i++) {
+			System.out.println((i + 1) + ". " + groups[i].getName());
+			groups[i].Show_Group();
+		}
 	}
 }
 
-class êµ¬ë‹¨ {
-	
+class ±¸´Ü {
+
 	private String name;
+	private ÄÚÄ¡[] coaches = new ÄÚÄ¡[100];
+	private ¼±¼ö[] players = new ¼±¼ö[100];
+	private int c_count = 0;
+	private int p_count = 0;
+
 	public void SetName(String name) {
 		this.name = name;
 	}
-	public String getName() {return name;}
-	
+
+	public String getName() {
+		return name;
+	}
+	public void DeleteGroup() {
+		this.name = null;
+		for(int i = 0; i < c_count; i++) {
+			coaches[i].deleteName();
+			coaches[i] = null;
+		}
+		for(int j = 0; j < p_count; j++) {
+			
+		}
+	}
 	public void Edit_Group() {
 		Scanner sc = new Scanner(System.in);
 		int select;
 		do {
-			System.out.println("<<" + this.getName() +"ì„ í¸ì§‘í•©ë‹ˆë‹¤.>>");
-			System.out.println("1. ì½”ì¹˜ì¶”ê°€");
-			System.out.println("2. ì„ ìˆ˜ì¶”ê°€");
-			System.out.println("3. ì½”ì¹˜ì‚­ì œ");
-			System.out.println("4. ì„ ìˆ˜ì‚­ì œ");
-			System.out.println("5. ë‚˜ê°€ê¸°");
-		
-		
-			System.out.println("ì…ë ¥ : ");
+			System.out.println("<<" + this.getName() + "À» ÆíÁıÇÕ´Ï´Ù.>>");
+			System.out.println("1. ÄÚÄ¡Ãß°¡");
+			System.out.println("2. ¼±¼öÃß°¡");
+			System.out.println("3. ÄÚÄ¡»èÁ¦");
+			System.out.println("4. ¼±¼ö»èÁ¦");
+			System.out.println("5. ³ª°¡±â");
+
+			System.out.println("ÀÔ·Â : ");
 			select = sc.nextInt();
-		
-			switch(select) {
-			case 1 :  Add_Coach(); break;
-			case 2 :  Add_Player(); break;
-			case 3 :  Delete_Coach(); break;
-			case 4 :  Delete_Player(); break;
-			case 5 : System.out.println("ì‹œìŠ¤í…œì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
-			return;
+
+			switch (select) {
+			case 1:
+				Add_Coach(); break;
+			case 2:
+				Add_Player(); break;
+			case 3:
+				Delete_Coach(); break;
+			case 4:
+				Delete_Player(); break;
+			case 5:
+				System.out.println("¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
+				return;
 			}
-		}while(true);
+		} while (true);
 	}
-	
+
 	private void Add_Coach() {
 		Scanner sc = new Scanner(System.in);
 		String name;
-		System.out.println("ì½”ì¹˜ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš” :");
+		System.out.println("ÄÚÄ¡ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä :");
 		name = sc.nextLine();
-		ì½”ì¹˜ coach = new ì½”ì¹˜();
-		coach.SetName(name);
-		System.out.println(">" + coach.getName() +"ê°€ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤.");
+		coaches[c_count] = new ÄÚÄ¡(name);
+		c_count++;
 	}
-	
-	private void Add_Player() {
+
+	private void Add_Player() {//
 		Scanner sc = new Scanner(System.in);
-		System.out.println("<<<ì„ ìˆ˜ë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.>>>");
-		System.out.println("ì„ ìˆ˜ì´ë¦„ : ");
+		System.out.println("<<<¼±¼ö¸¦ Ãß°¡ÇÕ´Ï´Ù.>>>");
+		System.out.println("¼±¼öÀÌ¸§ : ");
 		String name = sc.nextLine();
-		System.out.println("ì„ ìˆ˜ì—°ë´‰(ë§Œì›) : ");
+		System.out.println("¼±¼ö¿¬ºÀ(¸¸¿ø) : ");
 		int money = sc.nextInt();
-		ì„ ìˆ˜ player = new ì„ ìˆ˜();
-		player.SetInfo(name, money);
-		System.out.println(">" + player.getName() + "ê°€ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤.");
+		players[p_count] = new ¼±¼ö(name, money);
+		p_count++;
 	}
-	
+
+	public void Show_Group() {
+
+		for (int i = 0; i < c_count; i++) {
+			System.out.println("    - " + coaches[i].getName() + " ÄÚÄ¡");
+		}
+
+		for (int j = 0; j < p_count; j++) {
+			System.out.println("    -- " + players[j].getName() + " ¼±¼ö/¿¬ºÀ(¸¸¿ø) : " + players[j].getMoney());
+		}
+
+	}
+
 	private void Delete_Coach() {
-		System.out.println("ë‹¤ë¥¸ ë©”ë‰´ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.");
+		Scanner sc = new Scanner(System.in);
+		int select;
+		for(int i = 0; i < c_count; i++) {
+			System.out.println((i+1) + ". " + coaches[i].getName() + " ÄÚÄ¡");
+		}
+		System.out.println("»èÁ¦ÇÒ ÄÚÄ¡¸¦ ¼±ÅÃÇÏ¼¼¿ä : ");
+		select = sc.nextInt()-1;
+		coaches[select].deleteName();
+		coaches[select] = null;
+		c_count--;
+		for(int i = select; i < c_count; i++) {
+			coaches[i] = coaches[i+1];
+		}
+		coaches[c_count] = null;
+		System.out.println("»èÁ¦µÇ¾ú½À´Ï´Ù.");
 	}
-	
+
 	private void Delete_Player() {
-		System.out.println("ë‹¤ë¥¸ ë©”ë‰´ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.");
+		Scanner sc = new Scanner(System.in);
+		int select;
+		for(int i = 0; i < p_count; i++) {
+			System.out.println((i+1) + ". " + players[i].getName() + " ¼±¼ö");
+		}
+		System.out.println("»èÁ¦ÇÒ ¼±¼ö¸¦ ¼±ÅÃÇÏ¼¼¿ä : ");
+		select = sc.nextInt()-1;
+		players[select].deleteName();
+		players[select] = null;
+		p_count--;
+		for(int i = select; i < p_count; i++) {
+			players[i] = players[i+1];
+		}
+		players[p_count] = null;
+		System.out.println("»èÁ¦µÇ¾ú½À´Ï´Ù.");
 	}
 }
-class ì„ ìˆ˜{
+
+class ¼±¼ö {
 	private String name;
 	private int money;
-	
-	public void SetInfo(String name, int money) {
+
+	public ¼±¼ö(String name, int money) {
 		this.name = name;
 		this.money = money;
+		System.out.println(">" + this.name + "ÀÌ/°¡ Ãß°¡µÇ¾ú½À´Ï´Ù.");
 	}
-	
-	public String getName() {return name;}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+	public void deleteName() {
+		this.name = null;
+	}
 }
-class ì½”ì¹˜{
+
+class ÄÚÄ¡ {
 	private String name;
-	
-	public void SetName(String name) {
+
+	public ÄÚÄ¡(String name) {
 		this.name = name;
+		System.out.println(">" + this.name + "ÀÌ/°¡ Ãß°¡µÇ¾ú½À´Ï´Ù.");
 	}
-	
-	public String getName() {return name;}
+
+	public String getName() {
+		return name;
+	}
+	public void deleteName() {
+		this.name = null;
+	}
 }
