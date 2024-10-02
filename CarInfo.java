@@ -1,8 +1,18 @@
 package Test;
 
+import java.util.Scanner;
+
 public class CarInfo {
 	public static void main(String[] args) {
-		Pride pr = new Pride();
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("=====Pride=====");
+		System.out.println("최고 가격, 풀옵션 가격, 구형 교체 할인 가격, 운송비 :");
+		int price = sc.nextInt();
+		int option = sc.nextInt();
+		int discount = sc.nextInt();
+		int cost = sc.nextInt();
+		Pride pr = new Pride(price, option, discount, cost);
 		pr.size();
 		pr.price();
 		pr.option();
@@ -10,7 +20,13 @@ public class CarInfo {
 		pr.maker();
 		pr.prideCost();
 		
-		Sonata so = new Sonata();
+		System.out.println("=====Sonata=====");
+		System.out.println("최고 가격, 풀옵션 가격, 구형 교체 할인 가격, 운송비 :");
+		price = sc.nextInt();
+		option = sc.nextInt();
+		discount = sc.nextInt();
+		cost = sc.nextInt();
+		Sonata so = new Sonata(price, option, discount, cost);
 		so.size();
 		so.price();
 		so.option();
@@ -30,14 +46,14 @@ interface Car{
 }
 
 class Pride extends CarTransfer implements Car, CarMaker{
-	private int cost, option, discount;
+	private int price, option, discount;
 	@Override
 	public void size() {
 		System.out.println("자동차 크기 : " + CARSIZE1);
 	}
 	@Override
 	public void price() {
-		System.out.println("최고 가격 : " + cost + "만원");
+		System.out.println("최고 가격 : " + price + "만원");
 	}
 	public void option() {
 		System.out.println("풀옵션 가격 = " + option + "만원");
@@ -48,17 +64,23 @@ class Pride extends CarTransfer implements Car, CarMaker{
 	public void maker() {
 		System.out.println("제조사 : " + KIA);
 	}
+	public Pride(int price, int option, int discount, int cost) {
+		this.price = price;
+		this.option = option;
+		this.discount = discount;
+		
+	}
 }
 
 class Sonata extends CarTransfer implements Car, CarMaker{
-	private int cost, option, discount;
+	private int price, option, discount;
 	@Override
 	public void size() {
 		System.out.println("자동차 크기 : " + CARSIZE2);
 	}
 	@Override
 	public void price() {
-		System.out.println("최고 가격 : " + cost + "만원");
+		System.out.println("최고 가격 : " + price + "만원");
 	}
 	public void option() {
 		System.out.println("풀옵션 가격 = " + option + "만원");
@@ -68,6 +90,11 @@ class Sonata extends CarTransfer implements Car, CarMaker{
 	}
 	public void maker() {
 		System.out.println("제조사 : " + HYUNDAI);
+	}
+	public Sonata(int price, int option, int discount, int cost) {
+		this.price = price;
+		this.option = option;
+		this.discount = discount;
 	}
 }
 
@@ -79,10 +106,12 @@ interface CarMaker{
 }
 
 class CarTransfer {
+	private int cost;
 	public void prideCost() {
-		System.out.println("프라이드 운송비 = 5만원");
+		System.out.println("프라이드 운송비 = " + cost + "만원");
 	}
 	public void sonataCost() {
-		System.out.println("소나타 운송비 = 10만원");
+		System.out.println("소나타 운송비 = " + cost + "만원");
 	}
+
 }
