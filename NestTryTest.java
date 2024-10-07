@@ -2,18 +2,18 @@ package 박유민;
 
 public class NestTryTest {
 	public static void main(String[] args) {
-		try {
-			try {
-				System.out.println("내부 try 블록1");
-				int b = 5/0;
-				System.out.println(b);
+		try { //1
+			try { //2
+				System.out.println("내부 try 블록1"); //3
+				int b = 5/0; //4
+				System.out.println(b); 
 			}
-			catch(ArithmeticException e1) {
-				System.out.println("내부 catch문1");
+			catch(ArithmeticException e1) { //5
+				System.out.println("내부 catch문1"); //6
 			}
-			try {
-				System.out.println("내부 try 블록2");
-				int b = 5/0;
+			try { //7
+				System.out.println("내부 try 블록2"); //8
+				int b = 5/0; //9
 				System.out.println(b);
 			}
 			catch(ArrayIndexOutOfBoundsException e2) {
@@ -21,9 +21,9 @@ public class NestTryTest {
 			}
 			System.out.println("내부 try-catch문 블록 밖...");
 		}
-		catch(ArithmeticException e3) {
-			System.out.println("Arithmetic Exception");
-			System.out.println("바깥 catch문1");
+		catch(ArithmeticException e3) { //10
+			System.out.println("Arithmetic Exception"); //11
+			System.out.println("바깥 catch문1"); //12
 		}
 		catch(ArrayIndexOutOfBoundsException e4) {
 			System.out.println("ArrayIndexOutOfBoundsException");
@@ -33,5 +33,6 @@ public class NestTryTest {
 			System.out.println("Exception");
 			System.out.println("바깥 catch문3");
 		}
-	}
+		System.out.println("바깥 try-catch 블록 밖..."); //13
+	}	
 }
