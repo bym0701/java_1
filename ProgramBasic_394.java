@@ -15,14 +15,20 @@ public class ProgramBasic_394 {
 			String outFile = sc.next();
 			
 			File reader = new File(inFile);
+			
 			Scanner in = new Scanner(reader);
 			PrintWriter out = new PrintWriter(outFile);
 			
 			int lineNumber = 1;
-			while (in.hasNextLine()) {
+			while(in.hasNextLine()) {
 				String line = in.nextLine();
-				out.println("\* ")
+				out.println("/* " + lineNumber + " */" + line);
+				lineNumber++;
 			}
+			out.close();
+			System.out.println("작업을 성공적으로 마쳤습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
