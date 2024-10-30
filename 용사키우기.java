@@ -13,7 +13,6 @@ public class 용사키우기 extends 스탯{
 		int input;
 		
 		while(true) {
-			Show_스탯();
 			System.out.println("1. 랜덤 스탯");
 			System.out.println("2. Save");
 			System.out.println("3. Load");
@@ -46,11 +45,11 @@ public class 용사키우기 extends 스탯{
 		}
 	}
 	public void Load() {
+		스탯 s = new 스탯();
 		try {
 			File loadFile = new File("용사.txt");
 			Scanner sc= new Scanner(loadFile);
 			sc.useDelimiter("::");
-			스탯 s = new 스탯();
 			s.set레벨(sc.nextInt());
 			s.set체력(sc.nextInt());
 			s.set공격력(sc.nextInt());
@@ -60,5 +59,6 @@ public class 용사키우기 extends 스탯{
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		s.Show_스탯();
 	}
 }

@@ -18,9 +18,15 @@ public class 스탯 {
 		this.방어력 = rnd.nextInt(500);
 		this.색깔 = color[rnd.nextInt(3)];
 		System.out.println("랜덤 스탯 성공");
+		Show_스탯();
 	}
 	public void Show_스탯() {
-		
+		System.out.println("1. 레벨 : " + this.레벨);
+		System.out.println("2. 체력 : " + this.체력);
+		System.out.println("3. 공격력 : " + this.공격력);
+		System.out.println("4. 방어력 : " + this.방어력);
+		System.out.println("5. 색깔 : " + this.색깔);
+		System.out.println("");
 	}
 	public int get레벨() {return this.레벨;}
 	public int get체력() {return this.체력;}
