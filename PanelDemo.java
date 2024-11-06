@@ -20,6 +20,7 @@ public class PanelDemo extends JFrame{
 		Container c = getContentPane();
 		c.setBackground(Color.yellow);
 		c.setLayout(new FlowLayout());
+		
 		JButton pushButton = new JButton("press me");
 		c.add(pushButton);
 		
@@ -30,16 +31,15 @@ public class PanelDemo extends JFrame{
 		setSize(200,200);
 		setLocation(300,300);
 		setVisible(true);
-		
 	}
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		PanelDemo app = new PanelDemo();
 	}
 }
 class EventHandler extends WindowAdapter implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
-		final char bell = '\u0007';
-		if(event.getActionCommand().contentEquals("Press me")){
+		final char bell = 'º§';
+		if(event.getActionCommand().equals("press me")) {
 			System.out.print(bell);
 		}
 	}
