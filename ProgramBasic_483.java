@@ -1,17 +1,18 @@
 package ¹ÚÀ¯¹Î;
 
+import java.awt.ComponentOrientation;
 import java.awt.Container;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class ProgramBasic_482 extends JFrame{
+public class ProgramBasic_483 extends JFrame{
 	JButton[] buttons;
 	public static void main(String[] args) {
-		ProgramBasic_482 app = new ProgramBasic_482("test");
+		ProgramBasic_483 app = new ProgramBasic_483("test");
 	}
-	public ProgramBasic_482(String s) {
+	public ProgramBasic_483(String s) {
 		super(s);
 		initializeComponents();
 	}
@@ -20,7 +21,8 @@ public class ProgramBasic_482 extends JFrame{
 		
 		Container c = getContentPane();
 		
-		c.setLayout(new BoxLayout(c, BoxLayout.X_AXIS));
+		c.setLayout(new BoxLayout(c, BoxLayout.PAGE_AXIS));
+		c.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		
 		for(int i = 0; i < buttons.length; i++) {
 			buttons[i] = new JButton("Button " + (i+1));
