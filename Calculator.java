@@ -5,9 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.io.PrintWriter;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -39,6 +37,8 @@ public class Calculator extends JFrame implements ActionListener{
 		p1.setLayout(new GridLayout(1, 1, 5, 5));
 		JTextField text = new JTextField();
 		p1.add(text);
+		text.addActionListener(this);
+		
 
 		p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
 		JPanel p3 = new JPanel();
@@ -46,7 +46,6 @@ public class Calculator extends JFrame implements ActionListener{
 		p2.add(p3);
 		p2.add(Box.createRigidArea(new Dimension(5, 0)));
 		p2.add(p4);
-		
 		
 		p3.setLayout(new GridLayout(3, 3, 5, 5));
 		for(int i = 1; i <= 9; i++) {
@@ -71,46 +70,48 @@ public class Calculator extends JFrame implements ActionListener{
 		setVisible(true);
 	}
 	public void actionPerformed(ActionEvent event) {
-		int num[] = {};
-		String[] operator = {"+", "-", "*", "/", "="};
-		String[] operators = {};
-		int nc = 0, oc = 0;
-		for(int i = 1; i <= 9; i++) {
-			if(event.getActionCommand().equals(Integer.toString(i))) {
-				num[nc] = i;
-				nc++;
+		String[] operator = {"+", "-", "*", "/"};
+		String[] expression = {};
+		int count = 0;
+			for(int i = 1; i <= 9; i++) {
+				if(event.getActionCommand().equals(Integer.toString(i))) {
+					expression[count] = Integer.toString(i);
+					count++;
+				}
 			}
+			for(String i : operator) {
+				if(event.getActionCommand().equals(i)) {
+					expression[count] = i;
+					count++;
+				}
+			}
+			if(event.getActionCommand().equals("=")){
+				Save(expression);
+			}
+	}
+	public void Save(String[] expression) {
+		try {
+			PrintWriter out = new PrintWriter("Calculator.txt");
+			out.print(expression);
+			System.out.println("저장");
+			out.close();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		for(String i : operator) {
-			if(event.getActionCommand().equals("=")) {
-				calculate(num, operators, nc, oc);
-				break;
-			}
-			else if(event.getActionCommand().equals(i)) {
-				operators[oc] = i;
-				oc++;
-			}
+	}
+	public int Calculate(String op, int x, int y) {
+		int result = 0;
+		if((x == 0 || y == 0)&& op == "/") {
+			System.out.println("0으로 나눌 수 없습니다.");
+			return 0;
 		}
+		switch(op) {
+		case "+" : result = x + y;
+		case "-" : result = x - y;
+		case "*" : result = x * y;
+		case "/" : result = x / y;
+		}
+		return result;
+	}
 		
-	}
-	public void calculate(int[] num, String[] operators, int nc, int oc) {
-		int result;
-		for(int i = 0; i <= oc; i++) {
-			if(operators[i] == "*") {
-				num[i] = num[i]*num[i+1];
-				for(int j = i; j <= nc-1; j++)
-					num[j] = num[j+1];
-				nc--;
-			}
-			else if(operators[i] == "/") {
-				num[i] = num[i]/num[i+1];
-				for(int j = i; j <= nc-1; j++)
-					num[j] = num[j+1];
-				nc--;
-			}
-		}
-		for(int i = 0; i <= oc; i++) {
-			if(operators[i])
-		}
-	}
 }
