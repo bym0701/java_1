@@ -1,0 +1,169 @@
+package Test;
+
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class Calculator extends JFrame implements ActionListener {
+    private JTextField text;
+    private ArrayList<String> tmp = new ArrayList<String>();
+
+    public Calculator() {
+        initializeComponents();
+    }
+
+    private void initializeComponents() {
+        JPanel p1 = new JPanel();
+        JPanel p2 = new JPanel();
+        JPanel p4 = new JPanel();
+
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        add(p1);
+        add(p2);
+
+        p1.setLayout(new GridLayout(1, 1, 5, 5));
+        text = new JTextField();
+        p1.add(text);
+        text.addActionListener(this);
+
+        p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
+        JPanel p3 = new JPanel();
+        p2.add(p3);
+        p2.add(Box.createRigidArea(new Dimension(5, 0)));
+        p2.add(p4);
+
+        p3.setLayout(new GridLayout(3, 3, 5, 5));
+        for (int i = 1; i <= 9; i++) {
+            JButton b = new JButton(Integer.toString(i));
+            b.addActionListener(this);
+            p3.add(b);
+        }
+
+        p4.setLayout(new GridLayout(2, 3, 5, 5));
+        String[] operators = {"+", "-", "*", "/", "=", "C"};
+        for (String operator : operators) {
+            JButton b = new JButton(operator);
+            b.addActionListener(this);
+            p4.add(b);
+        }
+
+        setTitle("Calculator");
+        setSize(400, 400);
+        setVisible(true);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void actionPerformed(ActionEvent event) {
+        String command = event.getActionCommand();
+
+        if (command.charAt(0) >= '0' && command.charAt(0) <= '9') {
+            text.setText(text.getText() + command);
+            tmp.add(command);
+        } else if (command.equals("C")) {
+            text.setText("");
+            tmp.clear();
+        } else if (command.equals("=")) {
+            try {
+                saveExpression();
+                int result = loadAndCalculate();
+                text.setText(String.join(" ", tmp) + " = " + result);
+                tmp.clear();
+            } catch (Exception e) {
+                text.setText("Error");
+            }
+        } else {
+            text.setText(text.getText() + " " + command + " ");
+            tmp.add(command);
+        }
+    }
+
+    public void saveExpression() {
+        try {
+            PrintWriter out = new PrintWriter("Calculator.txt");
+            out.print(String.join(" ", tmp));
+            System.out.println("저장");
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int loadAndCalculate() {
+        ArrayList<Integer> num = new ArrayList<>();
+        ArrayList<String> operators = new ArrayList<>();
+        try {
+            File loadFile = new File("Calculator.txt");
+            Scanner sc = new Scanner(loadFile);
+            while (sc.hasNext()) {
+                if (sc.hasNextInt()) {
+                    num.add(sc.nextInt());
+                } else {
+                    operators.add(sc.next());
+                }
+            }
+            sc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return calculate(num, operators);
+    }
+
+    public int calculate(ArrayList<Integer> num, ArrayList<String> operators) {
+        ArrayList<Integer> numbers = new ArrayList<>(num);
+        ArrayList<String> ops = new ArrayList<>(operators);
+
+        while (ops.contains("*") || ops.contains("/")) {
+            for (int i = 0; i < ops.size(); i++) {
+                if (ops.get(i).equals("*")) {
+                    int result = numbers.get(i) * numbers.get(i + 1);
+                    numbers.set(i, result);
+                    numbers.remove(i + 1);
+                    ops.remove(i);
+                    i--;
+                } else if (ops.get(i).equals("/")) {
+                    if (numbers.get(i + 1) == 0) {
+                        throw new ArithmeticException("0으로 나눌 수 없습니다.");
+                    }
+                    int result = numbers.get(i) / numbers.get(i + 1);
+                    numbers.set(i, result);
+                    numbers.remove(i + 1);
+                    ops.remove(i);
+                    i--;
+                }
+            }
+        }
+
+        while (!ops.isEmpty()) {
+            int result;
+            if (ops.get(0).equals("+")) {
+                result = numbers.get(0) + numbers.get(1);
+            } else {
+                result = numbers.get(0) - numbers.get(1);
+            }
+            numbers.set(0, result);
+            numbers.remove(1);
+            ops.remove(0);
+        }
+
+        return numbers.get(0);
+    }
+
+    public static void main(String[] args) {
+        new Calculator();
+    }
+}
