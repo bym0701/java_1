@@ -19,6 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class Calculator extends JFrame implements ActionListener{
+	private ArrayList<String> tmp = new ArrayList<String>();
+	private JTextField text = new JTextField();
+	private String[] operator = {"+", "-", "*", "/", "=", "c"};
+    
 	public static void main(String[] args) {
 		Calculator cal = new Calculator("Calculator");
 	}
@@ -39,7 +43,6 @@ public class Calculator extends JFrame implements ActionListener{
 		c.add(p2);
 		
 		p1.setLayout(new GridLayout(1, 1, 5, 5));
-		JTextField text = new JTextField();
 		p1.add(text);
 		text.addActionListener(this);
 		
@@ -51,15 +54,14 @@ public class Calculator extends JFrame implements ActionListener{
 		p2.add(Box.createRigidArea(new Dimension(5, 0)));
 		p2.add(p4);
 		
-		p3.setLayout(new GridLayout(3, 3, 5, 5));
-		for(int i = 1; i <= 9; i++) {
+		p3.setLayout(new GridLayout(4, 3, 5, 5));
+		for(int i = 0; i < 10; i++) {
 			JButton b = new JButton(Integer.toString(i));
 			p3.add(b);
 			b.addActionListener(this);
 		}
 		
-		p4.setLayout(new GridLayout(5, 1, 5, 5));
-		String[] operator = {"+", "-", "*", "/", "="};
+		p4.setLayout(new GridLayout(6, 1, 5, 5));
 		
 		for(String i : operator) {
 			JButton btn = new JButton(i);
@@ -73,59 +75,105 @@ public class Calculator extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
-	private ArrayList<String> tmp = new ArrayList<String>();
-	//ArrayList로 하기
 	public void actionPerformed(ActionEvent event) {
-		String[] operator = {"+", "-", "*", "/"};
-		int result = 0;
-			for(int i = 1; i <= 9; i++) {
+		int result;
+			for(int i = 0; i <= 9; i++) {
 				if(event.getActionCommand().equals(Integer.toString(i))) {
-					//text에 i출력
+					text.setText(text.getText() + event.getActionCommand());
 					tmp.add(Integer.toString(i));
 				}
 			}
 			
 			for(String i : operator) {
 				if(event.getActionCommand().equals(i)) {
-					//text에 i출력
+					text.setText(text.getText() +" "+ event.getActionCommand() +" ");
 					tmp.add(i);
 				}
 			}
 			if(event.getActionCommand().equals("=")){
 				Save_Expression();
-				result = Load_Expression();
-				//result 출력
+				result = LoadandCalculate_Expression();
+				text.setText(Integer.toString(result));
+			}
+			else if(event.getActionCommand().equals("c")) {
+				tmp.clear();
+				text.setText("");
 			}
 	}
+	
 	public void Save_Expression() {
 		try {
 			PrintWriter out = new PrintWriter("Calculator.txt");
-			out.print(tmp);
-			System.out.print("저장");
+			for(int i = 0; i < tmp.size(); i++) {
+				out.print(tmp.get(i));
+			}
 			out.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public int Load_Expression() {
-		Expression ep = new Expression();
-//		String[] operator = {"+", "-", "*", "/"};
+	public int LoadandCalculate_Expression() {
+		String tmp;
+	    ArrayList<Integer> num = new ArrayList<Integer>();
+	    ArrayList<String> operators = new ArrayList<String>();
 		try {
 			File loadFile = new File("Calculator.txt");
 			Scanner sc= new Scanner(loadFile);
-			sc.useDelimiter(",");
-			//숫자, 연산자로 나눠서 ep의 num과 operator에 저장
-			//ep의 num과 operator을 ArrayList로 바꿔도 될듯
-			ep.set_num(sc.nextInt());
-			ep.set_nc();
-			ep.set_operators(sc.next());
-			ep.set_oc();
+			while (sc.hasNext()) {
+				tmp = sc.next();
+				for(String i : operator) {
+					if(i == tmp) {
+						operators.add(tmp);
+					}
+					else {
+						num.add(Integer.parseInt(tmp));
+					}
+				}
+				
+			}
 			sc.close();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		return ep.Calculate(); //계산하기
+		return Calculate(num, operators);
+	}
+	
+	public int Calculate(ArrayList<Integer> num, ArrayList<String> operators) {
+		int tmp = 0;
+		operators.remove("=");
+        while (operators.contains("*") || operators.contains("/")) {
+            for (int i = 0; i < operators.size(); i++) {
+                if (operators.get(i).equals("*")) {
+                    tmp = num.get(i) * num.get(i + 1);
+                    num.set(i, tmp);
+                    num.remove(i + 1);
+                    operators.remove(i);
+                } 
+                else if (operators.get(i).equals("/")) {
+                    if (num.get(i + 1) == 0) {
+                        throw new ArithmeticException("0으로 나눌 수 없습니다.");
+                    }
+                    tmp = num.get(i) / num.get(i + 1);
+                    num.set(i, tmp);
+                    num.remove(i + 1);
+                    operators.remove(i);
+                }
+            }
+        }
+        
+        while (!operators.isEmpty()) {
+            if (operators.get(0).equals("+")) {
+                tmp = num.get(0) + num.get(1);
+            } 
+            else if(operators.get(0).equals("-")) {
+                tmp = num.get(0) - num.get(1);
+            }
+            num.set(0, tmp);
+            num.remove(1);
+            operators.remove(0);
+        }
+        return num.get(0);
 	}
 	
 }
